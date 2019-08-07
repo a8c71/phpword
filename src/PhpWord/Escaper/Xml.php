@@ -26,7 +26,10 @@ class Xml extends AbstractEscaper
 {
     protected function escapeSingleValue($input)
     {
-        // todo: omit encoding parameter after migration onto PHP 5.4
-        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+        $escaped = htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+
+                // we don't want to escape the newline code, so we replace it with html tag again
+        $escaped_but_newlines_allowed = str_replace('&lt;/w:t&gt;&lt;w:br/&gt;&lt;w:t&gt;', '</w:t><w:br/><w:t>', $escaped);
+        return $escaped_but_newlines_allowed;
     }
 }
